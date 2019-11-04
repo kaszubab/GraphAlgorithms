@@ -32,7 +32,15 @@ def buildResidualNetwork(flowNetwork):
 def bfs(graph,s,t,parentTab):
     visited = [False for x in range(len(graph))]
     queue = []
-    stack.append(s)
+    queue.append(s)
+    while (queue):
+        vertex = queue.pop(0)
+        for x in graph[vertex]:
+            if not visited[x[0]] and x[1]>0
+                queue.append(x[0])
+                visited[x[0]]=True
+                parentTab[x[0]]=vertex
+    return visited[t]
 
 def dfs(graph,s,t,parentTab):
     visited = [False for x in range(len(graph))]
@@ -55,7 +63,7 @@ def fordFullkerson(name):
     parentTab = [-1 for x in range(len(residualNetwork))]
     maxflow = 0
     #print (residualNetwork)
-    while dfs(residualNetwork,0,len(residualNetwork)-1,parentTab) :
+    while bfs(residualNetwork,0,len(residualNetwork)-1,parentTab) :
         #print ("dfs sie nie zapetla")
         flowSurplus = float("Inf")
         x = len(residualNetwork)-1
