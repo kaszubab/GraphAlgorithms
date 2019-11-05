@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[25]:
+
+
 # -*- coding: utf-8 -*-
 """
 Created on Tue Oct 22 13:06:33 2019
@@ -14,20 +20,24 @@ def loadGraph(name):
     return myGraph
 #%%
 
+
+# In[26]:
+
+
 def buildResidualNetwork(flowNetwork):
-    #import copy
-    #residualNetwork = copy.deepcopy(flowNetwork)
     residualNetwork = []
     for i in range(len(flowNetwork)) :
         residualNetwork.append([])
         for x in flowNetwork[i]:
             residualNetwork[i].append((x[0],x[2]))
-    #print (residualNetwork)
     for i in range(len(flowNetwork)) :
         for x in flowNetwork[i]:
-            #print (x)
             residualNetwork[x[0]].append((i,x[1]))
     return residualNetwork
+
+
+# In[27]:
+
 
 def bfs(graph,s,t,parentTab):
     visited = [False for x in range(len(graph))]
@@ -36,7 +46,7 @@ def bfs(graph,s,t,parentTab):
     while (queue):
         vertex = queue.pop(0)
         for x in graph[vertex]:
-            if not visited[x[0]] and x[1]>0
+            if not visited[x[0]] and x[1] > 0:
                 queue.append(x[0])
                 visited[x[0]]=True
                 parentTab[x[0]]=vertex
@@ -57,14 +67,15 @@ def dfs(graph,s,t,parentTab):
     
 
 
+# In[28]:
+
+
 def fordFullkerson(name):
     flowNetwork = loadGraph(name)
     residualNetwork = buildResidualNetwork(flowNetwork)
     parentTab = [-1 for x in range(len(residualNetwork))]
     maxflow = 0
-    #print (residualNetwork)
     while bfs(residualNetwork,0,len(residualNetwork)-1,parentTab) :
-        #print ("dfs sie nie zapetla")
         flowSurplus = float("Inf")
         x = len(residualNetwork)-1
         while not x == 0 :
@@ -74,30 +85,37 @@ def fordFullkerson(name):
                     currFlow = y[1]
             flowSurplus = min(flowSurplus,currFlow)
             x = parentTab[x]
-        #print (flowSurplus)
         maxflow += flowSurplus
         x = len(residualNetwork)-1
-        #print (residualNetwork)
         while not x == 0 :
             z = residualNetwork[parentTab[x]]
-            #print (z)
             for y in range(len(z)) :
                 if z[y][0] == x:
                     newFlow = z[y][1] - flowSurplus
-                        #print (newFlow)
                     z[y] = (z[y][0],newFlow)
             z = residualNetwork[x]
             for y in range(len(z)) :
                 if z[y][0] == parentTab[x]:
                     z[y] = (z[y][0],z[y][1] + flowSurplus)
             x = parentTab[x]
-        #print (residualNetwork)
-        #print("ok")
     return maxflow
     
     
 #%%
-    
-print(fordFullkerson("flow/grid100x100"))
+
+
+# In[32]:
+
+
+file_name = "flow/rand100_500"   
+print(fordFullkerson(file_name))
+print(open(file_name).readline().split()[3])
 #graph = loadGraph("simple")
 #print (buildResidualNetwork(graph))
+
+
+# In[ ]:
+
+
+
+
